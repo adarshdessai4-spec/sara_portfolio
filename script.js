@@ -13,7 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('inquiryForm');
   const successMessage = document.querySelector('.form-success');
   const year = document.getElementById('year');
+  const portraitFrame = document.querySelector('.portrait-frame');
+  const tapWarning = document.querySelector('.tap-warning');
   let currentIndex = 0;
+  let tapTimeout;
 
   const images = Array.from(galleryItems).map(item => item.querySelector('img').src);
 
@@ -101,6 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.2 });
 
   reveals.forEach(el => observer.observe(el));
+
+  if (portraitFrame && tapWarning) {
+    portraitFrame.addEventListener('click', () => {
+      clearTimeout(tapTimeout);
+      tapWarning.classList.add('show');
+      tapTimeout = setTimeout(() => tapWarning.classList.remove('show'), 1800);
+    });
+  }
 
   form.addEventListener('submit', e => {
     e.preventDefault();
